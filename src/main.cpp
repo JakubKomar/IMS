@@ -1,5 +1,5 @@
 #include "main.hpp"
-#include <stdlib.h>
+#include <getopt.h>
 using namespace std;
 
 
@@ -27,12 +27,42 @@ class HarborDE : public Process{
 
 int main(int argc, char** argv)
 {
-    for(;;)
+    int opt;
+    bool mallfunction=false;
+    int tankerC=10;
+    int USterminalC=6;
+    int GEterminalC=2;
+
+    while ((opt = getopt (argc, argv, "t:U:G:hm")) != -1)
     {
-        
+        switch (opt)
+        {
+            case 'h':
+                cout<<"Simulator of IMS project: LNG infrastruktura\n\
+                    usege: ims [args]\n\
+                    args:\n\
+                    -h : help\n\
+                    -m : mallfuction of tankers turn ON\n\
+                    -t : tankers count\n\
+                    -U : US count of terminals\n\
+                    -G : German count of terminals\n\
+                    "; 
+                return 0;
+            break;
+            case 'm':
+                mallfunction=true;
+            break;
+            case 't':
+                tankerC=stoi(optarg);
+            break;
+            case 'U':
+                USterminalC=stoi(optarg);
+            break;
+            case 'G':
+                USterminalC=stoi(optarg);
+            break;
+        }
     }
 
-
-    cout<<"hallo word\n";
     return 0;
 }
