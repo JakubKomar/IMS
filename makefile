@@ -1,5 +1,8 @@
-#ISA 2021-pop3 client
-#author: Jakub Komárek (xkomar33)
+# Ims projekt: infrastruktura přepravy LNG 
+# @file  makefile
+#
+# @authors Jakub Komárek (xkomar33)
+# @authors Kroupa Dominik (xkroup12)
 
 CFLAGS= -Wall -g -lsimlib -lm
 

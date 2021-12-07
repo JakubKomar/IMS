@@ -1,5 +1,12 @@
+/**
+ * Ims projekt: infrastruktura přepravy LNG 
+ * @file  main.cpp
+ *
+ * @authors Jakub Komárek (xkomar33)
+ * @authors Kroupa Dominik (xkroup12)
+ */
 #include "main.hpp"
-#include <getopt.h>
+
 using namespace std;
 
 
