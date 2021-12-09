@@ -31,6 +31,7 @@ extern Facility *TerminalUS; /*!< US terminals Facility pointer */
 extern Facility *TerminalGE; /*!< GE terminals Facility pointer */
 extern Histogram journeyTime;
 
+extern int shipCounter; /*!< Counter of ship */
 /**
  * set all terminal names in array of facilities
  * @param terminalCount number of terminals

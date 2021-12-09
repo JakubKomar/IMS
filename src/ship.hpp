@@ -20,13 +20,20 @@ public:
      * Ship behavior - contains ship processes
      */
     void Behavior();
-
+    void Malfunction();
+    void fueling(char* harbor);
+    void fueling();
+    void sailing(char* Harbor);
+    void sailing();
+    void load();
+    void store();
     Ship();
     ~Ship();   
 
 private: 
-    static int shipCounter; /*!< total counter of initialized ships */
     double journeyStart;
+    int journeyCounter = 0;
+    int shipNumber=-1;
 };
 
 #endif

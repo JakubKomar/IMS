@@ -22,10 +22,12 @@ int maintenanceInterval = 7 * DAY; // each week
 int fuelInterval = 1 * DAY; // each day TODO calculate if given day interval corresponds to number of trips
 unsigned long importedLng = 0;
 
+
 Facility *TerminalUS; /*!< US terminals Facility pointer */
 Facility *TerminalGE; /*!< GE terminals Facility pointer */
 Histogram journeyTime("Time needed for journey to USA and back", 20 * DAY, 10, 30);
 
+int shipCounter=0;
 //Uniform(0,100); -- rovnomerne rozlozeni
 
 void setTerminalNames(int terminalCount, const char *terminalText, Facility *terminal) {
@@ -87,7 +89,7 @@ int main(int argc, char** argv)
     setTerminalNames(USterminalC, "US terminal number ", TerminalUS);
     setTerminalNames(GEterminalC, "GE terminal number ", TerminalGE);
 
-
+    RandomSeed(time(NULL));
 
     Print("\n===== BEGIN =====\n");
     
