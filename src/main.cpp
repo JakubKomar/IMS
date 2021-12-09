@@ -7,22 +7,42 @@
  */
 #include "main.hpp"
 #include "argparser.hpp"
+#include "ship.hpp"
+#include "externship.hpp"
+#include "generators.hpp"
 
 using namespace std;
 
-int malfunction=0;
+//global variables - defined in main.hpp with description
+int malfunction = 0;
 int tankerC = 10;
 int USterminalC = 6;
 int GEterminalC = 2;
 int maintenanceInterval = 7 * DAY; // each week
 int fuelInterval = 1 * DAY; // each day TODO calculate if given day interval corresponds to number of trips
+unsigned long importedLng = 0;
 
-Facility *TerminalUS; // US terminals pointer
-
-int Ship::shipCounter = 0; //set number of Ship instances to 0
-int externShip::externShipCounter = 0; //set number of externShip instances to 0
+Facility *TerminalUS; /*!< US terminals Facility pointer */
+Facility *TerminalGE; /*!< GE terminals Facility pointer */
+Histogram journeyTime("Time needed for journey to USA and back", 20 * DAY, 10, 30);
 
 //Uniform(0,100); -- rovnomerne rozlozeni
+
+void setTerminalNames(int terminalCount, const char *terminalText, Facility *terminal) {
+    for (int i = 0; i < terminalCount; i++) {
+        string termName = terminalText + to_string(i + 1); // add number to generic text
+        cout << termName << endl;
+
+        terminal[i].SetName(termName.c_str()); // set i-th terminal name
+    }
+}
+
+void printTerminalOutput(int terminalCount, Facility *terminal) {
+    for (int i = 0; i < terminalCount; i++)
+    {
+        terminal[i].Output();
+    }
+}
 
 int findShortestQueue(int facilityCount, Facility *facilityPointer) {
     int shortesti = 0; // index of terminal with shortest queue
@@ -35,52 +55,6 @@ int findShortestQueue(int facilityCount, Facility *facilityPointer) {
     }
     return shortesti;
 }
-
-////// SHIP CLASS METHODS ///////
-Ship::Ship() {
-    shipCounter++; // increase number of created Ship instances
-    Print("new ship number %d at time: %g \n", shipCounter, Time);
-}
-
-void Ship::Behavior() {
-    Print("Ship no. %d: Start at time %g\n", shipCounter, Time);
-
-    int shortestIndex = findShortestQueue(USterminalC, TerminalUS);
-
-    Print("Ship no. %d: Picked %d front at time %g\n", shipCounter, shortestIndex, Time);
-
-    Seize(TerminalUS[shortestIndex]);
-    Wait(200); //TODO add interval
-    Release(TerminalUS[shortestIndex]);
-
-    Print("Ship no. %d: Release terminal at time %g\n", shipCounter, Time);
-}
-Ship::~Ship() { Print("delete ship number %d at time: %g \n", shipCounter,  Time); }    
-
-////// EXTERN SHIP CLASS METHODS ///////
-externShip::externShip() {
-    externShipCounter++;
-    Print("new extern ship number %d at time: %g \n", externShipCounter, Time);
-}
-
-void externShip::Behavior() {
-    Print("Extern ship no. %d: Start at time %g\n", externShipCounter, Time);
-
-    int shortestIndex = findShortestQueue(USterminalC, TerminalUS);
-
-    Print("Extern ship no. %d: Picked %d front at time %g\n", externShipCounter, shortestIndex, Time);
-
-    Seize(TerminalUS[shortestIndex]);
-    Wait(200); //TODO add interval
-    Release(TerminalUS[shortestIndex]);
-
-
-    Print("Extern ship no. %d: End at time %g\n", externShipCounter,Time);
-}
-externShip::~externShip() {
-    Print("delete extern ship number %d at time: %g \n", externShipCounter, Time);
-}    
-
 
 ////// US HARBOR CLASS METHODS ///////
 class HarborUS : public Process{
@@ -98,52 +72,41 @@ class HarborGE : public Process{
     }
 };
 
-class externShipGenerator : public Event {
-    void Behavior() {
-        (new externShip)->Activate();
-        Activate(Time + 50); //TODO change generation time
-    }
-};
-
-class shipGenerator : public Event {
-    void Behavior() {
-        (new Ship)->Activate();
-        Activate(Time + 50); //TODO change generation time
-    }
-};
-
-
 int main(int argc, char** argv)
 {
-    
-
     argparse(argc, argv, &malfunction, &tankerC, &USterminalC, &GEterminalC, &maintenanceInterval, &fuelInterval);
 
-    Facility TerminalUStemp[USterminalC];
-    TerminalUS = TerminalUStemp;
+    // create local facilities according to input parameters and assign them to global pointer
+    Facility TerminalUSTemp[USterminalC]; 
+    TerminalUS = TerminalUSTemp;
+    
+    Facility TerminalGETemp[GEterminalC];
+    TerminalGE = TerminalGETemp;
 
-    for (int i = 0; i < USterminalC; i++) {
-        string termName = "US terminal number " + to_string(i+1);
-        cout << termName << endl;
-        TerminalUS[i].SetName(termName.c_str());
-    }
+    // set name for each terminal
+    setTerminalNames(USterminalC, "US terminal number ", TerminalUS);
+    setTerminalNames(GEterminalC, "GE terminal number ", TerminalGE);
+
+
 
     Print("\n===== BEGIN =====\n");
     
     Print("\n===== Init =====\n");
-    Init(0, 600); //TODO change end time
+    Init(0, 2*365*DAY); //TODO change end time
     
-    //(new externShipGenerator)->Activate(Time + 50); //TODO change generation time
-    (new shipGenerator)->Activate(Time + 50); //TODO change generation time
+    (new externShipGenerator)->Activate(Time + 50); //TODO change generation time
+    (new shipGenerator)->Activate(); //TODO change generation time
+
     
     Print("\n===== Run =====\n");
     Run();
 
+    // print statistics
+    printTerminalOutput(USterminalC, TerminalUS);
+    printTerminalOutput(GEterminalC, TerminalGE);
+    journeyTime.Output();
 
-    for (int i = 0; i < USterminalC; i++)
-    {
-        TerminalUS[i].Output();
-    }
+    cout << importedLng << endl;
 
     return 0;
 }
