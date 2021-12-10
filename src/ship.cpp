@@ -15,7 +15,7 @@ Ship::Ship()
 {
     this->shipNumber= shipCounter;
     shipCounter++; // increase number of created Ship instances
-    Print("new ship number %d at time: %g \n", shipNumber, Time);
+    fprintf(stderr,"new ship number %d at time: %g \n", shipNumber, Time);
 }
 
 void Ship::Malfunction()
@@ -35,20 +35,19 @@ void Ship::Malfunction()
             replacement->Activate(Time + Exponential(21*DAY));    //náhrada
             this->Cancel();
         }
-        else if(((rand>fatalMallfunctionPropability)&&(rand<=repairebleMallfunctionPropability))&&repairebleMallfucntion)//repaireble Malfunction
+        else if((rand<=repairebleMallfunctionPropability)&&repairebleMallfucntion)//repaireble Malfunction
         {
             cerr<<"\u001b[33m Ship repaired on see \u001b[0m\n";
             Wait(Exponential(11*DAY));  //repair on sea
-        }
-        
+        }    
     } 
 }
 
 void Ship::fueling(char* Harbor)
 {
-    Print("Ship no. %d: fueling start in %s at time %g\n", shipNumber,Harbor ,Time);
+    fprintf(stderr,"Ship no. %d: fueling start in %s at time %g\n", shipNumber,Harbor ,Time);
     fueling();
-    Print("Ship no. %d: fueling end %s at time %g\n", shipNumber,Harbor ,Time);
+    fprintf(stderr,"Ship no. %d: fueling end %s at time %g\n", shipNumber,Harbor ,Time);
 }
 
 void Ship::fueling()
@@ -58,7 +57,7 @@ void Ship::fueling()
 
 void Ship::sailing(char* Harbor)
 {
-    Print("Ship no. %d: sail to%s at time %g\n", shipNumber,Harbor, Time);
+    fprintf(stderr,"Ship no. %d: sail to%s at time %g\n", shipNumber,Harbor, Time);
     sailing();
 }
 
@@ -71,33 +70,34 @@ void Ship::sailing()
 void Ship::load()
 {
     int shortestIndex = findShortestQueue(USterminalC, TerminalUS);
-    Print("Ship no. %d: Picked %d USA terminal front at time %g\n", shipNumber, shortestIndex, Time);
+    fprintf(stderr,"Ship no. %d: Picked %d USA terminal front at time %g\n", shipNumber, shortestIndex, Time);
 
     Seize(TerminalUS[shortestIndex]);
     Wait(Uniform(20, 30)); // loading cargo TODO consult Uniform - exponential is in petri net
     Release(TerminalUS[shortestIndex]);
 
-    Print("Ship no. %d: Release USA terminal at time %g\n", shipNumber, Time);
+    fprintf(stderr,"Ship no. %d: Release USA terminal at time %g\n", shipNumber, Time);
 }
 
 void Ship::store()
 {
     int shortestIndex = findShortestQueue(GEterminalC, TerminalGE);
 
-    Print("Ship no. %d: Picked %d GE terminal front at time %g\n", shipNumber, shortestIndex, Time);
+    fprintf(stderr,"Ship no. %d: Picked %d GE terminal front at time %g\n", shipNumber, shortestIndex, Time);
 
     Seize(TerminalGE[shortestIndex]);
     Wait(Exponential(20)); // expounding cargo TODO consult exponential by petri
 
-    if (Time > 365*DAY) importedLng += 174000;
+    importedLng += 174000;
+
     Release(TerminalGE[shortestIndex]);
 
-    Print("Ship no. %d: Release GE terminal at time %g\n", shipNumber, Time);
+    fprintf(stderr,"Ship no. %d: Release GE terminal at time %g\n", shipNumber, Time);
 }
 
 void Ship::Behavior() {
 
-    Print("Ship no. %d: Start at time %g\n", shipNumber, Time);
+    fprintf(stderr,"Ship no. %d: Start at time %g\n", shipNumber, Time);
 
 	while(true)
     {
@@ -117,7 +117,7 @@ void Ship::Behavior() {
 
         fueling("GE");
 
-        Print("\n\n --- Ship no. %d: repeat journey (no. of journeys: %d) at time: %g --- \n\n", shipNumber, ++journeyCounter, Time);
+        fprintf(stderr,"\n\n --- Ship no. %d: repeat journey (no. of journeys: %d) at time: %g --- \n\n", shipNumber, ++journeyCounter, Time);
 
         journeyTime(Time - journeyStart); // register journey end time
 
@@ -126,7 +126,7 @@ void Ship::Behavior() {
 
 Ship::~Ship() 
 { 
-    Print("delete ship number %d at time: %g \n", shipNumber,  Time); 
+    fprintf(stderr,"delete ship number %d at time: %g \n", shipNumber,  Time); 
 }    
 
 

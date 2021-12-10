@@ -10,7 +10,7 @@
 #define SHIP_HPP
 
 #include "main.hpp"
-
+#include "string"
 /**
  * Class for German ships (tankers)
  */

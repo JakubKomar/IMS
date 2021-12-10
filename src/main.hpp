@@ -15,9 +15,11 @@
 #include <regex>
 #include <simlib.h>
 #include <getopt.h>
+#include <iomanip>
 
 
 #define DAY 24 /*!< define 1 day - 24 hours */
+using namespace std;
 
 extern int malfunction; /*!< German ship malfunction interval */
 extern int tankerC; /*!< number of German tankers */
@@ -30,6 +32,12 @@ extern unsigned long importedLng; /*!< Number of imported LNG units */
 extern Facility *TerminalUS; /*!< US terminals Facility pointer */
 extern Facility *TerminalGE; /*!< GE terminals Facility pointer */
 extern Histogram journeyTime;
+
+extern vector<unsigned int> logerPerMonth;
+extern vector<unsigned int> logerPerYear;
+
+extern Stat statPerMonth;
+extern Stat statPerYear;
 
 extern int shipCounter; /*!< Counter of ship */
 /**
@@ -55,5 +63,5 @@ void printTerminalOutput(int terminalCount, Facility *terminal);
  */
 int findShortestQueue(int facilityCount, Facility *facilityPointer);
 
-
+void printStats();
 #endif

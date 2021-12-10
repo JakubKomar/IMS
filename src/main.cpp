@@ -10,7 +10,7 @@
 #include "ship.hpp"
 #include "externship.hpp"
 #include "generators.hpp"
-
+#include "loger.hpp"
 using namespace std;
 
 //global variables - defined in main.hpp with description
@@ -21,14 +21,19 @@ int GEterminalC = 2;
 int maintenanceInterval = 7 * DAY; // each week
 int fuelInterval = 1 * DAY; // each day TODO calculate if given day interval corresponds to number of trips
 unsigned long importedLng = 0;
-
+unsigned int duration=5;//duration of simulation
 
 Facility *TerminalUS; /*!< US terminals Facility pointer */
 Facility *TerminalGE; /*!< GE terminals Facility pointer */
 Histogram journeyTime("Time needed for journey to USA and back", 20 * DAY, 10, 30);
 
+Stat statPerMonth;
+Stat statPerYear;
+
+vector<unsigned int> logerPerMonth;
+vector<unsigned int> logerPerYear;
+
 int shipCounter=0;
-//Uniform(0,100); -- rovnomerne rozlozeni
 
 void setTerminalNames(int terminalCount, const char *terminalText, Facility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
@@ -58,22 +63,6 @@ int findShortestQueue(int facilityCount, Facility *facilityPointer) {
     return shortesti;
 }
 
-////// US HARBOR CLASS METHODS ///////
-class HarborUS : public Process{
-    void Behavior()
-    {
-
-    }
-};
-
-////// GE HARBOR CLASS METHODS ///////
-class HarborGE : public Process{
-    void Behavior()
-    {
-
-    }
-};
-
 int main(int argc, char** argv)
 {
     argparse(argc, argv, &malfunction, &tankerC, &USterminalC, &GEterminalC, &maintenanceInterval, &fuelInterval);
@@ -91,24 +80,53 @@ int main(int argc, char** argv)
 
     RandomSeed(time(NULL));
 
-    Print("\n===== BEGIN =====\n");
-    
-    Print("\n===== Init =====\n");
-    Init(0, 2*365*DAY); //TODO change end time
+    Init(0, duration*365*DAY); //TODO change end time
     
     (new externShipGenerator)->Activate(Time + 50); //TODO change generation time
     (new shipGenerator)->Activate(); //TODO change generation time
 
-    
-    Print("\n===== Run =====\n");
+
+    (new Loger)->Activate(Time+362*DAY);
+    (new LogerM)->Activate(Time+30*DAY);
+
     Run();
 
-    // print statistics
+    printStats();
+
+    return 0;
+}
+
+
+void printStats()
+{
     printTerminalOutput(USterminalC, TerminalUS);
     printTerminalOutput(GEterminalC, TerminalGE);
     journeyTime.Output();
 
-    cout << importedLng << endl;
 
-    return 0;
+
+    cout<<"imported gas per month:\n";
+    statPerMonth.Output();
+    int j=1;
+    for (auto i : logerPerMonth)
+    {
+        cout <<setw(3)<< j <<":"<< i << '\n';
+        if(!(j%12))
+            cout<<"--------------------\n";
+        j++;
+    }
+    cout<<"\n";
+
+
+    cout<<"imported gas per year:\n";
+    statPerYear.Output();
+    j=1;
+    for (auto i : logerPerYear)
+    {
+        cout <<setw(3)<<j <<":"<< i << '\n';
+        j++;
+    }
+    cout<<"\n";
+
+    cout <<"total transported:"<< importedLng << endl;
 }
