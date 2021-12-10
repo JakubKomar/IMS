@@ -10,11 +10,12 @@
 #define EXTERNSHIP_HPP
 
 #include "main.hpp"
+#include "baseship.hpp"
 
 /**
  * Class for extern ships (tankers) that use US terminals
  */
-class externShip : public Process {
+class externShip : public baseShip {
 public:
     /**
      * Extern ship behavior - contains ship processes
@@ -23,8 +24,10 @@ public:
 
     externShip();
     ~externShip();
+
 private:
     static int externShipCounter; /*!< total counter of initialized extern ships */
+    int externShipNumber;
 };
 
 #endif

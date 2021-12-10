@@ -13,6 +13,8 @@ using namespace std;
 ////// SHIP CLASS METHODS ///////
 Ship::Ship() 
 {
+    Priority = 0; // set process priority to 0
+    recordInputTime = true;
     this->shipNumber= shipCounter;
     shipCounter++; // increase number of created Ship instances
     fprintf(stderr,"new ship number %d at time: %g \n", shipNumber, Time);
@@ -43,7 +45,7 @@ void Ship::Malfunction()
     } 
 }
 
-void Ship::fueling(char* Harbor)
+void Ship::fueling(char const* Harbor)
 {
     fprintf(stderr,"Ship no. %d: fueling start in %s at time %g\n", shipNumber,Harbor ,Time);
     fueling();
@@ -55,7 +57,7 @@ void Ship::fueling()
     Wait(Exponential(22));
 }
 
-void Ship::sailing(char* Harbor)
+void Ship::sailing(char const* Harbor)
 {
     fprintf(stderr,"Ship no. %d: sail to%s at time %g\n", shipNumber,Harbor, Time);
     sailing();
@@ -69,28 +71,60 @@ void Ship::sailing()
 
 void Ship::load()
 {
+    generatedWait = Uniform(20,30);
     int shortestIndex = findShortestQueue(USterminalC, TerminalUS);
-    fprintf(stderr,"Ship no. %d: Picked %d USA terminal front at time %g\n", shipNumber, shortestIndex, Time);
+    fprintf(stderr,"Ship no. %d: Picked %d USA terminal front at time %g with generated wait: %g\n", shipNumber, shortestIndex, Time, generatedWait);
 
+    repeatUSASeize:
+    interrupted = false;
     Seize(TerminalUS[shortestIndex]);
-    Wait(Uniform(20, 30)); // loading cargo TODO consult Uniform - exponential is in petri net
+    if (recordInputTime) {
+        inputTime = Time;
+        fprintf(stderr, "Ship no. %d: inputTime:%g\n\n\n", shipNumber, inputTime);
+    }
+    Wait(generatedWait); // loading cargo TODO consult Uniform - exponential is in petri net
+    
+    if (interrupted) {
+        //generatedWait -= (Time - inputTime); // calculate remaining time
+        fprintf(stderr,"Ship no. %d: INTERUPTEEEED at time %g in USA terminal number %d, calculated new time = %g\n", shipNumber, Time, shortestIndex, generatedWait);
+        goto repeatUSASeize;
+        
+    }
+
     Release(TerminalUS[shortestIndex]);
+    Priority = 0; // reset process priority to 0
+    recordInputTime = true;
 
     fprintf(stderr,"Ship no. %d: Release USA terminal at time %g\n", shipNumber, Time);
 }
 
 void Ship::store()
 {
+    generatedWait = Uniform(20,30);
     int shortestIndex = findShortestQueue(GEterminalC, TerminalGE);
 
-    fprintf(stderr,"Ship no. %d: Picked %d GE terminal front at time %g\n", shipNumber, shortestIndex, Time);
+    fprintf(stderr,"Ship no. %d: Picked %d GE terminal front at time %g with generated wait: %g\n", shipNumber, shortestIndex, Time, generatedWait);
 
+    repeatGESeize:
+    interrupted = false;
     Seize(TerminalGE[shortestIndex]);
-    Wait(Exponential(20)); // expounding cargo TODO consult exponential by petri
+    if (recordInputTime) {
+        inputTime = Time;
+        fprintf(stderr, "Ship no. %d: inputTime:%g\n\n\n", shipNumber, inputTime);
+    }
+    Wait(generatedWait); // expounding cargo TODO consult exponential by petri
+    
+    if (interrupted) {
+        //generatedWait = Time - generatedWait; // calculate remaining time
+        fprintf(stderr,"Ship no. %d: INTERUPTEEEED at time %g in GE terminal number %d, calculated new time = %g\n", shipNumber,Time, shortestIndex, generatedWait);
+        goto repeatGESeize;
+    }
 
     importedLng += 174000;
 
     Release(TerminalGE[shortestIndex]);
+    Priority = 0; // reset process priority to 0
+    recordInputTime = true;
 
     fprintf(stderr,"Ship no. %d: Release GE terminal at time %g\n", shipNumber, Time);
 }

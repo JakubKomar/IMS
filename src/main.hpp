@@ -17,6 +17,7 @@
 #include <getopt.h>
 #include <iomanip>
 
+#include "myfacility.hpp"
 
 #define DAY 24 /*!< define 1 day - 24 hours */
 using namespace std;
@@ -29,8 +30,8 @@ extern int maintenanceInterval; /*!< German ship maintenance interval */
 extern int fuelInterval; /*!< German ship fueling interval */
 extern unsigned long importedLng; /*!< Number of imported LNG units */
 
-extern Facility *TerminalUS; /*!< US terminals Facility pointer */
-extern Facility *TerminalGE; /*!< GE terminals Facility pointer */
+extern myFacility *TerminalUS; /*!< US terminals Facility pointer */
+extern myFacility *TerminalGE; /*!< GE terminals Facility pointer */
 extern Histogram journeyTime;
 
 extern vector<unsigned int> logerPerMonth;
@@ -46,14 +47,21 @@ extern int shipCounter; /*!< Counter of ship */
  * @param terminalText  generic terminal text
  * @param terminal      array of terminals
  */
-void setTerminalNames(int terminalCount, const char *terminalText, Facility *terminal);
+void setTerminalNames(int terminalCount, const char *terminalText, myFacility *terminal);
+
+/**
+ * create instances of terminal defect generators 
+ * @param terminalCount number of terminals
+ * @param terminal      array of terminals
+ */
+void instantiateTerminalDefect(int terminalCount, myFacility *terminal);
 
 /**
  * print all terminal statistics in array of facilities
  * @param terminalCount number of terminals
  * @param terminal      array of terminals
  */
-void printTerminalOutput(int terminalCount, Facility *terminal);
+void printTerminalOutput(int terminalCount, myFacility *terminal);
 
 /**
  * Finds facility with shortest queue
@@ -61,7 +69,7 @@ void printTerminalOutput(int terminalCount, Facility *terminal);
  * @param  facilityPointer pointer fo Facility array that will be searched
  * @return                 index of facility array
  */
-int findShortestQueue(int facilityCount, Facility *facilityPointer);
+int findShortestQueue(int facilityCount, myFacility *facilityPointer);
 
 void printStats();
 #endif

@@ -9,6 +9,7 @@
 #include "generators.hpp"
 #include "ship.hpp"
 #include "externship.hpp"
+#include "terminaldefect.hpp"
 
 using namespace std;
 
@@ -27,4 +28,15 @@ void shipGenerator::Behavior() {
 void externShipGenerator::Behavior() {
     (new externShip)->Activate();
 	Activate(Time + 9); //TODO change generation time
+}
+
+////// TERMINAL DEFECT GENERATOR METHODS ///////
+terminalDefectGenerator::terminalDefectGenerator(int termNum, myFacility *facility) {
+    terminalNumber = termNum;
+    terminal = facility;
+}
+
+void terminalDefectGenerator::Behavior() {
+    (new terminalDefect(terminalNumber, terminal))->Activate();
+    //Activate(Time + 700); //TODO change generation time
 }

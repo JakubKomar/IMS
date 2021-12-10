@@ -36,4 +36,18 @@ public:
     void Behavior();
 };
 
+/**
+ * Class for generating terminal defect
+ */
+class terminalDefectGenerator : public Event {
+public:
+    int terminalNumber;
+    myFacility *terminal;
+    /**
+     * Generates terminal defect
+     */
+    void Behavior();
+    terminalDefectGenerator(int termNum, myFacility *facility);
+};
+
 #endif
