@@ -14,26 +14,42 @@ int externShip::externShipCounter = 0; //set number of externShip instances to 0
 
 ////// EXTERN SHIP CLASS METHODS ///////
 externShip::externShip() {
-    externShipCounter++;
-    fprintf(stderr,"new extern ship number %d at time: %g \n", externShipCounter, Time);
+    Priority = 0; //set process priority to 0
+    recordInputTime = true;
+    externShipNumber = externShipCounter++;
+    fprintf(stderr,"new extern ship number %d at time: %g \n", externShipNumber, Time);
 }
 
 void externShip::Behavior() {
-    fprintf(stderr,"Extern ship no. %d: Start at time %g\n", externShipCounter, Time);
+    fprintf(stderr,"Extern ship no. %d: Start at time %g\n", externShipNumber, Time);
 
+    generatedWait = Uniform(20,30);
     int shortestIndex = findShortestQueue(USterminalC, TerminalUS);
 
-    fprintf(stderr,"Extern ship no. %d: Picked %d front at time %g\n", externShipCounter, shortestIndex, Time);
+    fprintf(stderr,"Extern ship no. %d: Picked %d front at time %g with generated wait: %g\n", externShipNumber, shortestIndex, Time, generatedWait);
 
+    repeatSeize:
+    interrupted = false;
     Seize(TerminalUS[shortestIndex]);
-    Wait(Uniform(20, 30)); // loading cargo TODO consult Uniform - exponential is in petri net
+    if (recordInputTime) {
+        inputTime = Time;
+        fprintf(stderr, "Extern ship no. %d: inputTime:%g\n\n\n", externShipNumber, inputTime);
+    }
+    Wait(generatedWait); // loading cargo TODO consult Uniform - exponential is in petri net
+    if (interrupted) {
+        //generatedWait -= (Time - inputTime); // calculate remaining time
+        fprintf(stderr,"Extern ship no. %d: INTERUPTEEEED at time %g in USA terminal number %d, calculated new time = %g\n", externShipNumber, Time, shortestIndex, generatedWait);
+        goto repeatSeize;
+    }
+
     Release(TerminalUS[shortestIndex]);
+    Priority = 0; // reset process priority to 0
 
-    fprintf(stderr,"Extern ship no. %d: Release USA terminal at time %g\n", externShipCounter, Time);
+    fprintf(stderr,"Extern ship no. %d: Release USA terminal at time %g\n", externShipNumber, Time);
 
 
-    fprintf(stderr,"Extern ship no. %d: End at time %g\n", externShipCounter,Time);
+    fprintf(stderr,"Extern ship no. %d: End at time %g\n", externShipNumber,Time);
 }
 externShip::~externShip() {
-    fprintf(stderr,"delete extern ship number %d at time: %g \n", externShipCounter, Time);
+    fprintf(stderr,"delete extern ship number %d at time: %g \n", externShipNumber, Time);
 }    

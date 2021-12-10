@@ -7,10 +7,13 @@
  */
 #include "main.hpp"
 #include "argparser.hpp"
+#include "baseship.hpp"
 #include "ship.hpp"
 #include "externship.hpp"
 #include "generators.hpp"
 #include "loger.hpp"
+#include "terminaldefect.hpp"
+
 using namespace std;
 
 //global variables - defined in main.hpp with description
@@ -23,8 +26,8 @@ int fuelInterval = 1 * DAY; // each day TODO calculate if given day interval cor
 unsigned long importedLng = 0;
 unsigned int duration=5;//duration of simulation
 
-Facility *TerminalUS; /*!< US terminals Facility pointer */
-Facility *TerminalGE; /*!< GE terminals Facility pointer */
+myFacility *TerminalUS; /*!< US terminals Facility pointer */
+myFacility *TerminalGE; /*!< GE terminals Facility pointer */
 Histogram journeyTime("Time needed for journey to USA and back", 20 * DAY, 10, 30);
 
 Stat statPerMonth;
@@ -35,7 +38,7 @@ vector<unsigned int> logerPerYear;
 
 int shipCounter=0;
 
-void setTerminalNames(int terminalCount, const char *terminalText, Facility *terminal) {
+void setTerminalNames(int terminalCount, const char *terminalText, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
         string termName = terminalText + to_string(i + 1); // add number to generic text
         cout << termName << endl;
@@ -44,14 +47,20 @@ void setTerminalNames(int terminalCount, const char *terminalText, Facility *ter
     }
 }
 
-void printTerminalOutput(int terminalCount, Facility *terminal) {
+void instantiateTerminalDefect(int terminalCount, myFacility *terminal) {
+    for (int i = 0; i < terminalCount; i++) {
+        (new terminalDefectGenerator(i, terminal))->Activate(Time + 700);
+    }
+}
+
+void printTerminalOutput(int terminalCount, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++)
     {
         terminal[i].Output();
     }
 }
 
-int findShortestQueue(int facilityCount, Facility *facilityPointer) {
+int findShortestQueue(int facilityCount, myFacility *facilityPointer) {
     int shortesti = 0; // index of terminal with shortest queue
 
     // finding index of shortest queue
@@ -68,10 +77,10 @@ int main(int argc, char** argv)
     argparse(argc, argv, &malfunction, &tankerC, &USterminalC, &GEterminalC, &maintenanceInterval, &fuelInterval);
 
     // create local facilities according to input parameters and assign them to global pointer
-    Facility TerminalUSTemp[USterminalC]; 
+    myFacility TerminalUSTemp[USterminalC]; 
     TerminalUS = TerminalUSTemp;
     
-    Facility TerminalGETemp[GEterminalC];
+    myFacility TerminalGETemp[GEterminalC];
     TerminalGE = TerminalGETemp;
 
     // set name for each terminal
@@ -84,6 +93,9 @@ int main(int argc, char** argv)
     
     (new externShipGenerator)->Activate(Time + 50); //TODO change generation time
     (new shipGenerator)->Activate(); //TODO change generation time
+
+    instantiateTerminalDefect(USterminalC, TerminalUS);
+    instantiateTerminalDefect(GEterminalC, TerminalGE);
 
 
     (new Loger)->Activate(Time+362*DAY);

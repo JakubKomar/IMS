@@ -10,20 +10,22 @@
 #define SHIP_HPP
 
 #include "main.hpp"
+#include "baseship.hpp"
 #include "string"
+
 /**
  * Class for German ships (tankers)
  */
-class Ship : public Process {
+class Ship : public baseShip {
 public:
     /**
      * Ship behavior - contains ship processes
      */
     void Behavior();
     void Malfunction();
-    void fueling(char* harbor);
+    void fueling(char const* harbor);
     void fueling();
-    void sailing(char* Harbor);
+    void sailing(char const* Harbor);
     void sailing();
     void load();
     void store();
