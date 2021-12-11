@@ -16,10 +16,9 @@
  */
 class baseShip : public Process {
 public:
-    double inputTime;
-    double generatedWait;
-	bool interrupted; /*!< tells if process was interrupted while in terminal queue */
-    bool recordInputTime;
+    double inputTime; //!< store time of entrance into terminal (Facility)
+    double generatedWait; //!< store generated wait for terminal
+	bool interrupted; //!< tells if process was interrupted while in terminal queue
     /**
      * Base ship behavior
      */

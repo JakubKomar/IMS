@@ -16,11 +16,11 @@
  */
 class terminalDefect : public Process {
 public:
-	int terminalNumber;
-    myFacility *terminal;
+	int terminalNumber; //!< number of terminal for which the defect was generated
+    myFacility *terminal; //!< terminal pointer array for which the defect was generated
 
     /**
-     * Extern ship behavior - contains ship processes
+     * Terminal defect behavior - contains defect processes
      */
     void Behavior();
 

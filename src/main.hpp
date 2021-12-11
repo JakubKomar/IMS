@@ -19,37 +19,37 @@
 
 #include "myfacility.hpp"
 
-#define DAY 24 /*!< define 1 day - 24 hours */
+#define DAY 24 //!< define 1 day - 24 hours
 using namespace std;
 
-extern int malfunction; /*!< German ship malfunction interval */
-extern int tankerC; /*!< number of German tankers */
-extern int USterminalC; /*!< number of USA terminals */
-extern int GEterminalC; /*!< number of German terminals */
-extern int maintenanceInterval; /*!< German ship maintenance interval */
-extern unsigned long importedLng; /*!< Number of imported LNG units */
+extern int malfunction; //!< German ship malfunction interval
+extern int tankerC; //!< number of German tankers
+extern int USterminalC; //!< number of USA terminals
+extern int GEterminalC; //!< number of German terminals
+extern int maintenanceInterval; //!< German ship maintenance interval
+extern unsigned long importedLng; //!< Number of imported LNG units
 
-extern myFacility *TerminalUS; /*!< US terminals Facility pointer */
-extern myFacility *TerminalGE; /*!< GE terminals Facility pointer */
-extern Histogram journeyTime;
+extern myFacility *TerminalUS; //!< US terminals Facility pointer
+extern myFacility *TerminalGE; //!< GE terminals Facility pointer
+extern Histogram journeyTime; //!< Histogram for needed journey time - from Germany to USA and back
 
-extern vector<unsigned int> logerPerMonth;
-extern vector<unsigned int> logerPerYear;
+extern vector<unsigned int> logerPerMonth; //!< for storing number of imported gas per month
+extern vector<unsigned int> logerPerYear; //!< for storing number of imported gas per year
 
-extern Stat statPerMonth;
-extern Stat statPerYear;
+extern Stat statPerMonth; //!< statistics for imported gas per month
+extern Stat statPerYear; //!< statistics for imported gas per year
 
-extern int shipCounter; /*!< Counter of ship */
-extern int tankerCapacity;
+extern int shipCounter; //!< counter of German ships
+extern int tankerCapacity; //!< number of total number of German ships requested on init
 
-extern bool fatalMallfunction;
-extern bool repairebleMallfucntion;
-extern double fatalMallfunctionPropability;
-extern double  repairebleMallfunctionPropability;
-extern bool malfuctionGeneralSwich;
-extern unsigned int duration;
-extern int repairebleLog;
-extern int fatalLog;
+extern bool fatalMallfunction; //!< fatal malfunction switch
+extern bool repairebleMallfucntion; //!< repairable malfunction switch
+extern double fatalMallfunctionPropability; //!< fatal malfunction probability
+extern double  repairebleMallfunctionPropability; //!< repairable malfunction probability
+extern bool malfuctionGeneralSwich; //!< malfunction switch
+extern unsigned int duration; //!< simulation duration in years
+extern int repairebleLog; //!< log for number of repairable malfunction
+extern int fatalLog; //!< log for number of fatal malfunction
 /**
  * set all terminal names in array of facilities
  * @param terminalCount number of terminals
@@ -80,5 +80,8 @@ void printTerminalOutput(int terminalCount, myFacility *terminal);
  */
 int findShortestQueue(int facilityCount, myFacility *facilityPointer);
 
+/**
+ * print gathered statistics
+ */
 void printStats();
 #endif

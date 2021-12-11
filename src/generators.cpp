@@ -27,7 +27,7 @@ void shipGenerator::Behavior() {
 ////// EXTERN SHIP GENERATOR ///////
 void externShipGenerator::Behavior() {
     (new externShip)->Activate();
-	Activate(Time + 8); //TODO change generation time
+	Activate(Time + 8);
 }
 
 ////// TERMINAL DEFECT GENERATOR METHODS ///////
@@ -38,5 +38,4 @@ terminalDefectGenerator::terminalDefectGenerator(int termNum, myFacility *facili
 
 void terminalDefectGenerator::Behavior() {
     (new terminalDefect(terminalNumber, terminal))->Activate();
-    //Activate(Time + 700); //TODO change generation time
 }

@@ -26,8 +26,8 @@ public:
     ~externShip();
 
 private:
-    static int externShipCounter; /*!< total counter of initialized extern ships */
-    int externShipNumber;
+    static int externShipCounter; //!< total counter of initialized extern ships
+    int externShipNumber; //!< extern ship index for debugging purposes
 };
 
 #endif
