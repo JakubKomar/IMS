@@ -87,7 +87,6 @@ void Ship::load()
 
     Release(TerminalUS[shortestIndex]);
     Priority = 0; // reset process priority to 0
-    recordInputTime = true;
 
     // fprintf(stderr,"Ship no. %d: Release USA terminal at time %g\n", shipNumber, Time);
 }
@@ -116,7 +115,6 @@ void Ship::store()
 
     Release(TerminalGE[shortestIndex]);
     Priority = 0; // reset process priority to 0
-    recordInputTime = true;
 
     // fprintf(stderr,"Ship no. %d: Release GE terminal at time %g\n", shipNumber, Time);
 }
