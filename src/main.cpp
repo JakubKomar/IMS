@@ -19,11 +19,11 @@ using namespace std;
 //setup config
    
     //us harbor config
-        int USterminalC = 6; 
+        int USterminalC = 4; 
     //ge harbor config
         int GEterminalC = 2;
     //tanker config
-        int tankerC = 10;   //tanker count
+        int tankerC = 11;   //tanker count
         int tankerCapacity=174000;  //capacity of one tanker in m3
 //end setup config
 
@@ -34,7 +34,7 @@ using namespace std;
 
 //mallfunctions    
     bool malfuctionGeneralSwich=false;
-    //tanker mallfuctions
+    //tanker malfuctions
     bool fatalMallfunction=false;
     bool repairebleMallfucntion=false;
     double fatalMallfunctionPropability=0.0005;      //probability that tanker on way get fatal mallfunction
@@ -57,8 +57,8 @@ using namespace std;
 //end log vars
 
 
-myFacility *TerminalUS; /*!< US terminals Facility pointer */
-myFacility *TerminalGE; /*!< GE terminals Facility pointer */
+myFacility *TerminalUS; 
+myFacility *TerminalGE;
 
 
 int main(int argc, char** argv)
@@ -102,7 +102,7 @@ int main(int argc, char** argv)
 void setTerminalNames(int terminalCount, const char *terminalText, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
         string termName = terminalText + to_string(i + 1); // add number to generic text
-        cerr << termName << endl;
+        // cerr << termName << endl;
 
         terminal[i].SetName(termName.c_str()); // set i-th terminal name
     }

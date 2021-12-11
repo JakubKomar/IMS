@@ -20,25 +20,24 @@ terminalDefect::terminalDefect(int termNum, myFacility *facility) {
 }
 
 void terminalDefect::Behavior() {
-    Seize(terminal[terminalNumber], 1);
+    Seize(terminal[terminalNumber], 1); // seize with service priority
 
-    if (terminal[terminalNumber].get2Length() > 0) {
+    if (terminal[terminalNumber].get2Length() > 0) { // if another process was interrupted
 
-    	fprintf(stderr,"Terminal defect at time: %g \n", Time);
-    	baseShip *ship = (baseShip *)terminal[terminalNumber].getfrst();
+    	// fprintf(stderr,"Terminal defect at time: %g \n", Time);
+    	baseShip *ship = (baseShip *)terminal[terminalNumber].getfrst(); // get the process
 
-    	ship->interrupted = true;
-    	ship->recordInputTime = false;
+    	ship->interrupted = true; // set interrupted flag
     	ship->Priority = 1; // set process priority to 1
-    	ship->generatedWait -= (Time - ship->inputTime);
+    	ship->generatedWait -= (Time - ship->inputTime); // recalculate remaining facility usage time
       
-    	ship->Activate();	
+    	ship->Activate(); // activate interrupted process
     }
 
-    Wait(Exponential(5*DAY));
+    Wait(Exponential(5*DAY)); // repairing defect
     Release(terminal[terminalNumber]);
 
 
 
-    (new terminalDefectGenerator(terminalNumber, terminal))->Activate(Time+ Exponential(5*30*DAY));
+    (new terminalDefectGenerator(terminalNumber, terminal))->Activate(Time+ Exponential(5*30*DAY)); // generate new terminal defect generator for given terminal number
 }

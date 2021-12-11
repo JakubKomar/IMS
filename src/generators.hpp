@@ -22,7 +22,7 @@ public:
     void Behavior();
 
 private:
-    static int generatedCounter; /*!< total counter of generated German ships */
+    static int generatedCounter; //!< total counter of generated German ships
 };
 
 /**
@@ -41,8 +41,9 @@ public:
  */
 class terminalDefectGenerator : public Event {
 public:
-    int terminalNumber;
-    myFacility *terminal;
+    int terminalNumber; //!< number of terminal for which the defect was generated
+    myFacility *terminal; //!< terminal pointer array for which the defect was generated
+    
     /**
      * Generates terminal defect
      */

@@ -10,8 +10,8 @@
 using namespace std;
 
 int myFacility::get2Length() {
-    return Q2->Length();
+    return Q2->Length(); // call Facility protected method
 }
 Entity* myFacility::getfrst() {
-    return Q2->GetFirst();
+    return Q2->GetFirst(); // call Facility protected method
 }

@@ -61,9 +61,9 @@ public:
     ~Ship();   
 
 private: 
-    double journeyStart;
-    int journeyCounter = 0; 
-    int shipNumber=-1;  //ship identifier for debug
+    double journeyStart; //!< for recording journey start time
+    int journeyCounter = 0; //!< store number of journeys for each ship
+    int shipNumber=-1;  //!< ship identifier for debugging purposes
 };
 
 #endif

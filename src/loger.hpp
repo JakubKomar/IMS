@@ -15,6 +15,9 @@
  */
 class Loger : public Event {
 public:
+    /**
+     * Loger behavior - log year statistics
+     */
     void Behavior();
 
 private: 
@@ -25,10 +28,13 @@ private:
  */
 class LogerM : public Event {
 public:
+    /**
+     * LogerM behavior - log month statistics
+     */
     void Behavior();  
 
 private: 
-    unsigned long prevVal=0;
+    unsigned long prevVal=0; //!< for remembering previous value of import
 };
 
 
