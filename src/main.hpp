@@ -27,7 +27,6 @@ extern int tankerC; /*!< number of German tankers */
 extern int USterminalC; /*!< number of USA terminals */
 extern int GEterminalC; /*!< number of German terminals */
 extern int maintenanceInterval; /*!< German ship maintenance interval */
-extern int fuelInterval; /*!< German ship fueling interval */
 extern unsigned long importedLng; /*!< Number of imported LNG units */
 
 extern myFacility *TerminalUS; /*!< US terminals Facility pointer */
@@ -47,7 +46,10 @@ extern bool fatalMallfunction;
 extern bool repairebleMallfucntion;
 extern double fatalMallfunctionPropability;
 extern double  repairebleMallfunctionPropability;
-
+extern bool malfuctionGeneralSwich;
+extern unsigned int duration;
+extern int repairebleLog;
+extern int fatalLog;
 /**
  * set all terminal names in array of facilities
  * @param terminalCount number of terminals

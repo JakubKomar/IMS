@@ -22,20 +22,22 @@ Ship::Ship()
 
 void Ship::Malfunction()
 {
-    if(true)
+    if(malfuctionGeneralSwich)
     {
         double rand=Random();
         if((rand<=fatalMallfunctionPropability)&&fatalMallfunction)//fatal/critikal Malfunction 
         {
+            fatalLog++;
             cerr<<"\u001b[31m Ship has been destroyed \u001b[0m\n";
             Ship * replacement=new Ship; 
-            replacement->Activate(Time + Exponential(21*DAY));    //náhrada
+            replacement->Activate(Time + Exponential(30*DAY));    //náhrada
             this->Cancel();
         }
         else if((rand<=repairebleMallfunctionPropability+fatalMallfunctionPropability)&&repairebleMallfucntion)//repaireble Malfunction
         {
+            repairebleLog++;
             cerr<<"\u001b[33m Ship repaired on see \u001b[0m\n";
-            Wait(Exponential(11*DAY));  //repair on sea
+            Wait(Exponential(20*DAY));  //repair on sea
         }    
     } 
 }
@@ -73,10 +75,10 @@ void Ship::load()
     repeatUSASeize:
     interrupted = false;
     Seize(TerminalUS[shortestIndex]);
-    if (recordInputTime) {
+    //if (recordInputTime) {
         inputTime = Time;
         fprintf(stderr, "Ship no. %d: inputTime:%g\n\n\n", shipNumber, inputTime);
-    }
+   // }
     Wait(generatedWait); // loading cargo TODO consult Uniform - exponential is in petri net
     
     if (interrupted) {
@@ -103,10 +105,10 @@ void Ship::store()
     repeatGESeize:
     interrupted = false;
     Seize(TerminalGE[shortestIndex]);
-    if (recordInputTime) {
+   // if (recordInputTime) {
         inputTime = Time;
         fprintf(stderr, "Ship no. %d: inputTime:%g\n\n\n", shipNumber, inputTime);
-    }
+    //}
     Wait(generatedWait); // expounding cargo TODO consult exponential by petri
     
     if (interrupted) {

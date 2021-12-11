@@ -18,8 +18,6 @@ using namespace std;
 
 //setup config
    
-    int fuelInterval = 1 * DAY; // each day TODO calculate if given day interval corresponds to number of trips
-
     //us harbor config
         int USterminalC = 6; 
     //ge harbor config
@@ -34,14 +32,13 @@ using namespace std;
     int maintenanceInterval = 7 * DAY; // each week
 //end simulation config 
 
-//mallfunctions
-    int malfunction = 0;
-
+//mallfunctions    
+    bool malfuctionGeneralSwich=false;
     //tanker mallfuctions
-    bool fatalMallfunction=true;
-    bool repairebleMallfucntion=true;
-    double fatalMallfunctionPropability=0.002;      //probability that tanker on way get fatal mallfunction
-    double  repairebleMallfunctionPropability=0.02; //probability that tanker on way get repaireble mallfunction
+    bool fatalMallfunction=false;
+    bool repairebleMallfucntion=false;
+    double fatalMallfunctionPropability=0.0005;      //probability that tanker on way get fatal mallfunction
+    double  repairebleMallfunctionPropability=0.005; //probability that tanker on way get repaireble mallfunction
 //end mallfunctions 
 
 //log vars
@@ -54,6 +51,9 @@ using namespace std;
     vector<unsigned int> logerPerMonth;
     vector<unsigned int> logerPerYear;
     int shipCounter=0;
+    int repairebleLog=0;
+    int fatalLog=0;
+
 //end log vars
 
 
@@ -63,7 +63,7 @@ myFacility *TerminalGE; /*!< GE terminals Facility pointer */
 
 int main(int argc, char** argv)
 {
-    argparse(argc, argv, &malfunction, &tankerC, &USterminalC, &GEterminalC, &maintenanceInterval, &fuelInterval);
+    argparse(argc, argv);
 
     // create local facilities according to input parameters and assign them to global pointer
     myFacility TerminalUSTemp[USterminalC]; 
@@ -83,8 +83,11 @@ int main(int argc, char** argv)
     (new externShipGenerator)->Activate(Time + 50); //TODO change generation time
     (new shipGenerator)->Activate(); //TODO change generation time
 
-    instantiateTerminalDefect(USterminalC, TerminalUS);
-    instantiateTerminalDefect(GEterminalC, TerminalGE);
+    if(malfuctionGeneralSwich)
+    {
+        instantiateTerminalDefect(USterminalC, TerminalUS);
+        instantiateTerminalDefect(GEterminalC, TerminalGE);
+    }
 
     (new Loger)->Activate(Time+362*DAY);
     (new LogerM)->Activate(Time+30*DAY);
@@ -99,7 +102,7 @@ int main(int argc, char** argv)
 void setTerminalNames(int terminalCount, const char *terminalText, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
         string termName = terminalText + to_string(i + 1); // add number to generic text
-        cout << termName << endl;
+        cerr << termName << endl;
 
         terminal[i].SetName(termName.c_str()); // set i-th terminal name
     }
@@ -107,7 +110,7 @@ void setTerminalNames(int terminalCount, const char *terminalText, myFacility *t
 
 void instantiateTerminalDefect(int terminalCount, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
-        (new terminalDefectGenerator(i, terminal))->Activate(Time + 700);
+        (new terminalDefectGenerator(i, terminal))->Activate(Time+ Exponential(5*30*DAY));
     }
 }
 
@@ -153,12 +156,18 @@ void printStats()
     cout<<"imported gas per year:\n";
     statPerYear.Output();
     j=1;
+    cout<<"year|transported (m3)\n=======================\n";
     for (auto i : logerPerYear)
     {
-        cout <<setw(3)<<j <<":"<< i << '\n';
+        cout <<setw(4)<<j <<"|"<< i << '\n';
         j++;
     }
     cout<<"\n";
 
     cout <<"total transported:"<< importedLng << endl;
+    if(malfuctionGeneralSwich)
+    {
+        cout<<"Repairable malfunctions counter: "<<repairebleLog<<endl;
+        cout<<"Fatal malfunctions counter: "<<fatalLog<<endl;
+    }
 }

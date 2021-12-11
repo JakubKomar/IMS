@@ -31,14 +31,14 @@ void terminalDefect::Behavior() {
     	ship->recordInputTime = false;
     	ship->Priority = 1; // set process priority to 1
     	ship->generatedWait -= (Time - ship->inputTime);
-
+      
     	ship->Activate();	
     }
 
-    Wait(Exponential(10));
+    Wait(Exponential(5*DAY));
     Release(terminal[terminalNumber]);
 
 
 
-    (new terminalDefectGenerator(terminalNumber, terminal))->Activate(Time + 700);
+    (new terminalDefectGenerator(terminalNumber, terminal))->Activate(Time+ Exponential(5*30*DAY));
 }

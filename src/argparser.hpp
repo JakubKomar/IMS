@@ -11,6 +11,6 @@
 
 #include "main.hpp"
 
-void argparse(int argc, char** argv, int *malfunction, int *tankerC, int *USterminalC, int *GEterminalC, int *maintenanceInterval, int *fuelInterval);
+void argparse(int argc, char** argv);
 
 #endif

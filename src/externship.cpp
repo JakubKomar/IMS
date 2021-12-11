@@ -31,10 +31,10 @@ void externShip::Behavior() {
     repeatSeize:
     interrupted = false;
     Seize(TerminalUS[shortestIndex]);
-    if (recordInputTime) {
+   // if (recordInputTime) {
         inputTime = Time;
         fprintf(stderr, "Extern ship no. %d: inputTime:%g\n\n\n", externShipNumber, inputTime);
-    }
+    //}
     Wait(generatedWait); // loading cargo TODO consult Uniform - exponential is in petri net
     if (interrupted) {
         //generatedWait -= (Time - inputTime); // calculate remaining time

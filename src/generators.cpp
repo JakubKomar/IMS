@@ -27,7 +27,7 @@ void shipGenerator::Behavior() {
 ////// EXTERN SHIP GENERATOR ///////
 void externShipGenerator::Behavior() {
     (new externShip)->Activate();
-	Activate(Time + 9); //TODO change generation time
+	Activate(Time + 8); //TODO change generation time
 }
 
 ////// TERMINAL DEFECT GENERATOR METHODS ///////
