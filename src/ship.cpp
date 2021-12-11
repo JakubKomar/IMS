@@ -22,11 +22,6 @@ Ship::Ship()
 
 void Ship::Malfunction()
 {
-    bool fatalMallfunction=true;
-    bool repairebleMallfucntion=true;
-    double fatalMallfunctionPropability=0.005;
-    double  repairebleMallfunctionPropability=0.02;
-    //------do mainu-------//
     if(true)
     {
         double rand=Random();
@@ -37,7 +32,7 @@ void Ship::Malfunction()
             replacement->Activate(Time + Exponential(21*DAY));    //náhrada
             this->Cancel();
         }
-        else if((rand<=repairebleMallfunctionPropability)&&repairebleMallfucntion)//repaireble Malfunction
+        else if((rand<=repairebleMallfunctionPropability+fatalMallfunctionPropability)&&repairebleMallfucntion)//repaireble Malfunction
         {
             cerr<<"\u001b[33m Ship repaired on see \u001b[0m\n";
             Wait(Exponential(11*DAY));  //repair on sea
@@ -120,7 +115,7 @@ void Ship::store()
         goto repeatGESeize;
     }
 
-    importedLng += 174000;
+    importedLng += tankerCapacity;
 
     Release(TerminalGE[shortestIndex]);
     Priority = 0; // reset process priority to 0

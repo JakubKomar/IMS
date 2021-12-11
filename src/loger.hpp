@@ -1,6 +1,6 @@
 /**
  * Ims projekt: infrastruktura přepravy LNG 
- * @file  ship.hpp
+ * @file  loger.hpp
  *
  * @authors Jakub Komárek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
@@ -11,17 +11,18 @@
 
 #include "main.hpp"
 /**
- * Class for German ships (tankers)
+ * generating report every year
  */
 class Loger : public Event {
 public:
     void Behavior();
- 
 
 private: 
     unsigned long prevVal=0;
 };
-
+/**
+ * generating report every month
+ */
 class LogerM : public Event {
 public:
     void Behavior();  

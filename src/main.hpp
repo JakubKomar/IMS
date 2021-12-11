@@ -41,6 +41,13 @@ extern Stat statPerMonth;
 extern Stat statPerYear;
 
 extern int shipCounter; /*!< Counter of ship */
+extern int tankerCapacity;
+
+extern bool fatalMallfunction;
+extern bool repairebleMallfucntion;
+extern double fatalMallfunctionPropability;
+extern double  repairebleMallfunctionPropability;
+
 /**
  * set all terminal names in array of facilities
  * @param terminalCount number of terminals

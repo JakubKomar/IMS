@@ -22,20 +22,48 @@ public:
      * Ship behavior - contains ship processes
      */
     void Behavior();
+
+    /**
+     * @brief module for mallfuction on road over sea
+     */
     void Malfunction();
+
+    /**
+     * @brief fueling fuction whith debug report
+     */
     void fueling(char const* harbor);
+
+    /**
+     * @brief module for simulating fueling process
+     */
     void fueling();
+
+    /**
+     * @brief module for simulating sailing between terminals whith debug
+     */
     void sailing(char const* Harbor);
+
+    /**
+     * @brief module for simulating sailing between terminals 
+    */
     void sailing();
+
+    /**
+     * @brief module for simulation of loading lng gass
+     */
     void load();
+
+    /**
+     * @brief module for simulation of unloading lng gass
+     */
     void store();
     Ship();
     ~Ship();   
 
 private: 
     double journeyStart;
-    int journeyCounter = 0;
-    int shipNumber=-1;
+    int journeyCounter = 0; 
+    int shipNumber=-1;  //ship identifier for debug
 };
 
 #endif
