@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  ship.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 
@@ -58,12 +58,11 @@ public:
      */
     void store();
     Ship();
-    ~Ship();   
 
 private: 
     double journeyStart; //!< for recording journey start time
     int journeyCounter = 0; //!< store number of journeys for each ship
-    int shipNumber=-1;  //!< ship identifier for debugging purposes
+    int shipNumber=-1; //!< ship identifier for debugging purposes
 };
 
 #endif

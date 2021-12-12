@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  argparser.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 
@@ -10,6 +10,20 @@
 #define ARGPARSER_HPP
 
 #include "main.hpp"
+
+/**
+ * safe conversion from string to integer - preventing exception
+ * @param  optarg string to convert
+ * @return        converted value
+ */
+int safeStoi(char *optarg);
+
+/**
+ * safe conversion from string to double - preventing exception
+ * @param  optarg string to convert
+ * @return        converted value
+ */
+double safeStod(char *optarg);
 
 /**
  * parse input arguments from command line

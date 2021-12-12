@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  terminaldefect.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 

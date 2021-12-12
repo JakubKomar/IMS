@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  main.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 #ifndef MAIN_HPP
@@ -50,6 +50,7 @@ extern bool malfuctionGeneralSwich; //!< malfunction switch
 extern unsigned int duration; //!< simulation duration in years
 extern int repairebleLog; //!< log for number of repairable malfunction
 extern int fatalLog; //!< log for number of fatal malfunction
+
 /**
  * set all terminal names in array of facilities
  * @param terminalCount number of terminals

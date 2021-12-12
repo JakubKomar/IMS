@@ -1,7 +1,7 @@
-# Ims projekt: infrastruktura přepravy LNG 
-# @file  makefile
+# Ims projekt: infrastruktura prepravy LNG 
+# @file  Makefile
 #
-# @authors Jakub Komárek (xkomar33)
+# @authors Jakub Komarek (xkomar33)
 # @authors Kroupa Dominik (xkroup12)
 
 CFLAGS= -Wall -g -lsimlib -lm

@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  main.cpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 #include "main.hpp"
@@ -61,8 +61,7 @@ myFacility *TerminalUS;
 myFacility *TerminalGE;
 
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv) {
     argparse(argc, argv);
 
     // create local facilities according to input parameters and assign them to global pointer
@@ -78,13 +77,12 @@ int main(int argc, char** argv)
 
     RandomSeed(time(NULL));
 
-    Init(0, duration*365*DAY); //TODO change end time
+    Init(0, duration*365*DAY);
     
-    (new externShipGenerator)->Activate(Time + 50); //TODO change generation time
-    (new shipGenerator)->Activate(); //TODO change generation time
+    (new externShipGenerator)->Activate(Time + 50);
+    (new shipGenerator)->Activate();
 
-    if(malfuctionGeneralSwich)
-    {
+    if(malfuctionGeneralSwich) {
         instantiateTerminalDefect(USterminalC, TerminalUS);
         instantiateTerminalDefect(GEterminalC, TerminalGE);
     }
@@ -102,7 +100,6 @@ int main(int argc, char** argv)
 void setTerminalNames(int terminalCount, const char *terminalText, myFacility *terminal) {
     for (int i = 0; i < terminalCount; i++) {
         string termName = terminalText + to_string(i + 1); // add number to generic text
-        // cerr << termName << endl;
 
         terminal[i].SetName(termName.c_str()); // set i-th terminal name
     }
@@ -132,19 +129,15 @@ int findShortestQueue(int facilityCount, myFacility *facilityPointer) {
     return shortesti;
 }
 
-void printStats()
-{
+void printStats() {
     printTerminalOutput(USterminalC, TerminalUS);
     printTerminalOutput(GEterminalC, TerminalGE);
     journeyTime.Output();
 
-
-
     cout<<"imported gas per month:\n";
     statPerMonth.Output();
     int j=1;
-    for (auto i : logerPerMonth)
-    {
+    for (auto i : logerPerMonth) {
         cout <<setw(3)<< j <<":"<< i << '\n';
         if(!(j%12))
             cout<<"--------------------\n";
@@ -152,22 +145,19 @@ void printStats()
     }
     cout<<"\n";
 
-
     cout<<"imported gas per year:\n";
     statPerYear.Output();
     j=1;
     cout<<"year|transported (m3)\n=======================\n";
-    for (auto i : logerPerYear)
-    {
+    for (auto i : logerPerYear) {
         cout <<setw(4)<<j <<"|"<< i << '\n';
         j++;
     }
     cout<<"\n";
 
     cout <<"total transported:"<< importedLng << endl;
-    if(malfuctionGeneralSwich)
-    {
-        cout<<"Repairable malfunctions counter: "<<repairebleLog<<endl;
-        cout<<"Fatal malfunctions counter: "<<fatalLog<<endl;
+    if(malfuctionGeneralSwich) {
+        cout<<"Repairable malfunctions counter: "<< repairebleLog <<endl;
+        cout<<"Fatal malfunctions counter: "<< fatalLog <<endl;
     }
 }

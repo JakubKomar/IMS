@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  baseship.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 
@@ -19,6 +19,7 @@ public:
     double inputTime; //!< store time of entrance into terminal (Facility)
     double generatedWait; //!< store generated wait for terminal
 	bool interrupted; //!< tells if process was interrupted while in terminal queue
+    
     /**
      * Base ship behavior
      */

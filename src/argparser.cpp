@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  argparser.cpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 
@@ -14,6 +14,17 @@ int safeStoi(char *optarg) {
 	int result;
 	try {
 		result = stoi(optarg);
+	} catch (const exception& e) {
+		cerr << "Invalid option parameter, rerun with -h for help" << endl;
+		exit(1);
+	}
+	return result;
+}
+
+double safeStod(char *optarg) {
+	int result;
+	try {
+		result = stod(optarg);
 	} catch (const exception& e) {
 		cerr << "Invalid option parameter, rerun with -h for help" << endl;
 		exit(1);
@@ -73,11 +84,11 @@ args:\n\
 	            	GEterminalC = safeStoi(optarg);
 	            break;
 				case 'R':
-	               	repairebleMallfunctionPropability = stod(optarg) ;
+	               	repairebleMallfunctionPropability = safeStod(optarg) ;
 					repairebleMallfucntion=true;
 	            break;
 				case 'F':
-	                fatalMallfunctionPropability = stod(optarg) ;
+	                fatalMallfunctionPropability = safeStod(optarg) ;
 					fatalMallfunction=true;
 	            break;
 				case 's':

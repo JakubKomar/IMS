@@ -1,8 +1,8 @@
 /**
- * Ims projekt: infrastruktura přepravy LNG 
+ * Ims projekt: infrastruktura prepravy LNG 
  * @file  externship.hpp
  *
- * @authors Jakub Komárek (xkomar33)
+ * @authors Jakub Komarek (xkomar33)
  * @authors Kroupa Dominik (xkroup12)
  */
 
@@ -23,7 +23,6 @@ public:
     void Behavior();
 
     externShip();
-    ~externShip();
 
 private:
     static int externShipCounter; //!< total counter of initialized extern ships
